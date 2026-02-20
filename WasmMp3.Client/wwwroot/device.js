@@ -67,3 +67,24 @@ window.battery = {
         return battery.level * 100; // Retorna 0 a 100
     }
 };
+
+//GPS
+
+window.getGeolocation = () => {
+    return new Promise((resolve, reject) => {
+        if (!navigator.geolocation) {
+            reject("Geolocalização não suportada.");
+        }
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                resolve({
+                    latitude: position.coords.latitudes,
+                    longitude: position.coords.longitude
+                });
+            },
+            (error) => {
+                reject(error.message);
+            }
+        );
+    });
+};

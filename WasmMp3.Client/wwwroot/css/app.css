@@ -253,7 +253,7 @@ textarea.form-control,
 input.form-control,
 select.form-select {
     background: rgba(255,255,255,0.06);
-    color: var(--text);
+/*    color: var(--text);*/
     border: 1px solid var(--border);
 }
 
@@ -285,4 +285,18 @@ select.form-select {
         color: #f87171;
         background: rgba(248, 113, 113, 0.08);
         border-color: rgba(248, 113, 113, 0.25);
+    }
+
+/* Classe específica para textareas em fundos claros */
+.textarea-claro {
+    background-color: #f8f9fa !important; /* Fundo cinza bem claro */
+    border: 1px solid #ced4da !important; /* Borda cinza visível do Bootstrap */
+    color: #212529 !important; /* Texto escuro */
+    min-height: 120px; /* Garante uma altura boa para digitar */
+    resize: vertical; /* Permite que o usuário aumente a caixa para baixo */
+}
+
+    /* Ajustando a cor do placeholder para ficar legível */
+    .textarea-claro::placeholder {
+        color: #6c757d !important;
     }

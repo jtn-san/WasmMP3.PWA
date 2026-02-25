@@ -32,8 +32,13 @@ public class DeviceService
 
     //GPS
 
-    public ValueTask<Localizacao> GetGeoLocazitionAsync()
-        => _js.InvokeAsync<Localizacao>("gps.getLocation");
+    public ValueTask<Localizacao> GetGeoLocalizationAsync()
+        => _js.InvokeAsync<Localizacao>("getGeolocation");
 
+    //camera
+    public ValueTask StartVideoAsync(string videoElementId)
+        => _js.InvokeVoidAsync("camera.startVideo", videoElementId);
 
+    public ValueTask<string> TakePictureAsync(string videoElementId, string canvasElementId)
+        => _js.InvokeAsync<string>("camera.takePicture", videoElementId, canvasElementId);
 }

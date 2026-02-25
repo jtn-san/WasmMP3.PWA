@@ -78,7 +78,7 @@ window.getGeolocation = () => {
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 resolve({
-                    latitude: position.coords.latitudes,
+                    latitude: position.coords.latitude,
                     longitude: position.coords.longitude
                 });
             },
@@ -87,4 +87,26 @@ window.getGeolocation = () => {
             }
         );
     });
+};
+
+
+// Camera
+window.camera = {
+    startVideo: async (videoElementId) => {
+        const video = document.getElementById(videoElementId);
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            video.srcObject = stream;
+            video.play();
+        }
+    },
+    takePicture: (videoElementId, canvasElementId) => {
+        const video = document.getElementById(videoElementId);
+        const canvas = document.getElementById(canvasElementId);
+        const context = canvas.getContext('2d');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+        return canvas.toDataURL('image/png');
+    }
 };

@@ -92,14 +92,26 @@ window.getGeolocation = () => {
 
 // Camera
 window.camera = {
-    startVideo: async (videoElementId) => {
+    startVideo: async (videoElementId, useFrontCamera) => {
         const video = document.getElementById(videoElementId);
+
+        // Define se usa 'user' (frontal) ou 'environment' (traseira)
+        const facingMode = useFrontCamera ? 'user' : 'environment';
+
+        const constraints = {
+            video: {
+                facingMode: { ideal: facingMode }
+            }
+        };
+
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+            window.currentStream = stream; // Armazena o stream para parar depois
             video.srcObject = stream;
             video.play();
         }
     },
+
     takePicture: (videoElementId, canvasElementId) => {
         const video = document.getElementById(videoElementId);
         const canvas = document.getElementById(canvasElementId);
@@ -108,5 +120,15 @@ window.camera = {
         canvas.height = video.videoHeight;
         context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
         return canvas.toDataURL('image/png');
+    },
+
+    stopVideo: (videoElementId) => {
+        const video = document.getElementById(videoElementId);
+        if (window.currentStream) {
+            window.currentStream.getTracks().forEach(track => track.stop());
+            video.srcObject = null;
+            window.currentStream = null;
+        }
     }
+
 };

@@ -35,10 +35,13 @@ public class DeviceService
     public ValueTask<Localizacao> GetGeoLocalizationAsync()
         => _js.InvokeAsync<Localizacao>("getGeolocation");
 
-    //camera
-    public ValueTask StartVideoAsync(string videoElementId)
-        => _js.InvokeVoidAsync("camera.startVideo", videoElementId);
+    //câmera
+    public ValueTask StartVideoAsync(string videoElementId, bool useFrontCamera)
+        => _js.InvokeVoidAsync("camera.startVideo", videoElementId, useFrontCamera);
 
     public ValueTask<string> TakePictureAsync(string videoElementId, string canvasElementId)
         => _js.InvokeAsync<string>("camera.takePicture", videoElementId, canvasElementId);
+
+    public ValueTask StopVideoAsync(string videoElementId)
+        => _js.InvokeVoidAsync("camera.stopVideo", videoElementId);
 }

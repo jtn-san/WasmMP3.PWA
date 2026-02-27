@@ -9,6 +9,8 @@
         
         <button class="btn btn-primary mt-2" @onclick="IniciarCamera">Iniciar Câmera</button>
         <button class="btn btn-success mt-2" @onclick="CapturarFoto">Tirar Foto</button>
+        <button class="btn btn-success mt-2" @onclick="AlternarCamera">Inverter Camêra </button>
+        <button class="btn btn-success mt-2" @onclick="PararCamera">Parar </button>
     </div>
 
     <div class="col-md-6">
@@ -25,14 +27,28 @@
 
 @code {
     private string? fotoUrl;
+    private bool cameraFrontal = true; // true para frontal, false para traseira
 
     private async Task IniciarCamera()
     {
-        await Device.StartVideoAsync("videoFeed");
+        await Device.StartVideoAsync("videoFeed", cameraFrontal);
     }
 
     private async Task CapturarFoto()
     {
         fotoUrl = await Device.TakePictureAsync("videoFeed", "fotoCanvas");
     }
+    private async Task PararCamera()
+    {
+        await Device.StopVideoAsync("videoFeed");
+    }
+
+    private async Task AlternarCamera()
+    {
+        cameraFrontal = !cameraFrontal;
+        await PararCamera();
+        await IniciarCamera();
+    }   
+
+
 }

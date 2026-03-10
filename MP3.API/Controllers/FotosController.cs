@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MP3.API.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors("MyPolicy")]
     [ApiController]
     public class FotosController : ControllerBase
     {
@@ -37,6 +39,30 @@ namespace MP3.API.Controllers
 
             return Ok(new { url = $"/uploads/{fileName}" });
         }
+
+
+
+        [HttpPost("upload-file")]
+        public async Task<IActionResult> UploadFile(IFormFile file)
+        {
+            if (file == null || file.Length == 0) return BadRequest("Arquivo inválido.");
+
+            var folderPath = Path.Combine("wwwroot/uploads");
+            if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+
+            var fileName = $"nativa_{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
+            var filePath = Path.Combine(folderPath, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return Ok();
+        }
+
+
+
 
     }
 }

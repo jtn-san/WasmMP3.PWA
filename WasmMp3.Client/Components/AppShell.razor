@@ -29,6 +29,15 @@
                 </div>
             </MobilePage>
         }
+        else if (activeTab == TabKey.NativeCamera)
+        {
+            <AppHeader Title="Camera Nativa" Subtitle="📸" />
+            <MobilePage>
+                <div class="card-dark">
+                    <CameraNativaPanel />
+                </div>
+            </MobilePage>
+        }
         else if (activeTab == TabKey.Offline)
         {
             <AppHeader Title="Offline" Subtitle="Status de conexão (próxima feature)" />

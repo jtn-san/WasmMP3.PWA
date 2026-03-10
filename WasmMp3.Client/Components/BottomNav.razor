@@ -19,6 +19,12 @@
         <span class="text">Camera</span>
     </button>
 
+    <button class="bottom-nav-btn @(ActiveTab == TabKey.NativeCamera ? "active" : "")"
+            @onclick="() => Select(TabKey.NativeCamera)">
+        <span class="icon">🎥</span>
+        <span class="text">Native Camera</span>
+    </button>
+
     <button class="bottom-nav-btn @(ActiveTab == TabKey.Offline ? "active" : "")"
             @onclick="() => Select(TabKey.Offline)">
         <span class="icon">📡</span>
@@ -33,7 +39,7 @@
 </nav>
 
 @code {
-    public enum TabKey { Notes, GPS, Camera, Offline, Settings }
+    public enum TabKey { Notes, GPS, Camera, Offline, Settings, NativeCamera }
 
     [Parameter] public TabKey ActiveTab { get; set; }
     [Parameter] public EventCallback<TabKey> ActiveTabChanged { get; set; }
